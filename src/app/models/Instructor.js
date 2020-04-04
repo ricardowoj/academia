@@ -10,7 +10,7 @@ module.exports = {
             callback(results.rows)
         })
     },
-
+ 
     create(data, callback) {
 
         const query = `
@@ -54,15 +54,15 @@ module.exports = {
     update(data, callback) {
 
         const query = `
-        UPDATE instructors SET 
-            avatar_url=($1),
-            name=($2),
-            birth=($3),
-            gender=($4),
-            services=($5)
-        WHERE id=($6)
-    `
-        
+            UPDATE instructors SET 
+                avatar_url=($1),
+                name=($2),
+                birth=($3),
+                gender=($4),
+                services=($5)
+            WHERE id=($6)
+        `
+         
         const values = [
             data.avatar_url,
             data.name,
@@ -84,6 +84,6 @@ module.exports = {
             if(err) throw `Database Error! ${err}` 
 
             return callback()
-        })
+        }) 
     }
 }

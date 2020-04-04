@@ -72,10 +72,15 @@ module.exports = {
                 return res.send('Preencha todos os campos!')
             }   
         }
-        return
+        
+        Student.update(req.body, function() {
+            return res.redirect(`/students/${req.body.id}`)
+        })
     },
 
     delete(req, res){
-        return
+        Student.delete(req.body.id, function() {
+            return res.redirect(`/students`)
+        })
     }
 }

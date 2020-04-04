@@ -28,11 +28,22 @@
     <div>Sexo</div>
     <div>
         <span>
-            <input type="radio" name="gender" value="Male" {% if instructor.gender == 'Male' %} checked="checked" {% endif %}>Masculino
+            <input type="radio" 
+            name="gender" 
+            value="masculino" 
+            {% if student.gender == 'masculino' %} 
+            checked="checked"
+            {% endif %}>
+            Masculino
         </span>
 
         <span>
-            <input type="radio" name="gender" value="Female" {% if instructor.gender == 'Female' %} checked="checked" {% endif %}>Feminino
+            <input type="radio" 
+            name="gender" 
+            value="feminino" 
+            {% if student.gender == 'feminino' %} 
+            checked="checked" 
+            {% endif %}>Feminino
         </span>
     </div>
 </div>

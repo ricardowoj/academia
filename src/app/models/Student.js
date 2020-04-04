@@ -65,5 +65,55 @@ module.exports = {
             callback(results.rows[0])
 
         })
+    },
+
+    update(data, callback) {
+
+        const query = `
+            UPDATE students SET
+                avatar_url=($1),
+                name=($2),
+                email=($3),
+                birth=($4),
+                gender=($5),
+                activities=($6),
+                zip=($7),
+                city=($8),
+                state=($9),
+                neighborhood=($10),
+                street=($11),
+                complement=($12)
+            WHERE id=($13)
+        `
+
+        const values = [
+            data.avatar_url,
+            data.name,
+            data.email,
+            moment(data.birth).format('YYYY-MM-DD'),
+            data.gender,
+            data.activities,
+            data.zip,
+            data.city,
+            data.state,
+            data.neighborhood,
+            data.street,
+            data.complement,
+            data.id
+        ] 
+
+        db.query(query, values, function(err, results) {
+            if(err) throw `Database error! ${err}`
+            callback()
+        })
+
+    },
+
+    delete(id, callback) {
+        db.query(`DELETE FROM students 
+        WHERE id = $1`, [id], function(err, results) {
+            if(err) throw `Database Error! ${err}`
+            return callback()
+        })
     }
 }

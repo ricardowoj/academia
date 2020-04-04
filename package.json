@@ -12,7 +12,6 @@
   "author": "Ricardo Wojciechowski",
   "license": "ISC",
   "dependencies": {
-    "cep-promise": "^3.0.9",
     "express": "^4.17.1",
     "method-override": "^3.0.0",
     "moment": "^2.24.0",
