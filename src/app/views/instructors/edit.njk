@@ -11,20 +11,17 @@
         </section>
 
         <section class="details">
-        
             <form action="/instructors?_method=PUT" method="POST" >
-
                 <h3 class="class">Editar instrutor</h3>
-                {% include 'instructors/fields.njk' %}
-                <input type="hidden" name="id" value="{{instructor.id}}">
 
+                {% include 'instructors/fields.njk' %}
+
+                <input type="hidden" name="id" value="{{instructor.id}}">
             </form>
 
             <form id="form-delete"action="/instructors?_method=DELETE" method="POST" >
-
                 <input type="hidden" name="id" value="{{instructor.id}}">
                 <button type="submit">Deletar</button>
-
             </form>
 
         </section>

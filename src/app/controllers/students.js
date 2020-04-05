@@ -9,32 +9,25 @@ module.exports = {
         })
 
     },
-
+ 
     getCreate(req, res){
 
-        return res.render("students/create")
+        Student.instructorsSelectOptions(function(options) {
+            return res.render('students/create', {instructorOptions: options})
+        })
 
     },
 
     postCreate(req, res){
 
         const keys = Object.keys(req.body)
-
-        for(key of keys){
-
-            if (req.body[key] == "") {
-
-                return res.send('Preencha todos os campos!')
-
-            }
-        }
     
         Student.create(req.body, function(student) {
 
             return res.redirect(`/students/${student.id}`)
         })
 
-        return
+        return 
     },
 
     showCreate(req, res){
@@ -51,36 +44,39 @@ module.exports = {
 
         })
     },
-
+ 
     editCreate(req, res){
         
         Student.find(req.params.id, function(student) {
 
             if(!student) return res.send("Student not found")
 
-            return res.render("students/edit", { student })
+            Student.instructorsSelectOptions(function(options) {
+                return res.render("students/edit", { student, instructorOptions: options })
+            })
 
         })
 
     },
     
     putCreate(req, res){
+
         const keys = Object.keys(req.body)
 
-        for(key of keys){
-            if (req.body[key] == "") {
-                return res.send('Preencha todos os campos!')
-            }   
-        }
-        
         Student.update(req.body, function() {
+
             return res.redirect(`/students/${req.body.id}`)
+
         })
+
     },
 
     delete(req, res){
+
         Student.delete(req.body.id, function() {
+
             return res.redirect(`/students`)
+
         })
     }
 }

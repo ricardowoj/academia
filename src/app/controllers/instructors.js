@@ -5,11 +5,11 @@ module.exports = {
 
     index(req, res){
 
-            Instructor.all(function(instructors) {
-                return res.render("instructors/index", { instructors })
-            })
+        Instructor.all(function(instructors) {
+            return res.render("instructors/index", { instructors })
+        })
 
-        },
+    },
 
     getCreate(req, res){
 
@@ -69,14 +69,6 @@ module.exports = {
     putCreate(req, res){
 
         const keys = Object.keys(req.body)
-
-        for(key of keys){
-
-            if (req.body[key] == "") {
-                return res.send('Preencha todos os campos!')
-            }   
-
-        }
 
         Instructor.update(req.body, function() {
 

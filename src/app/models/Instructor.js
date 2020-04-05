@@ -5,9 +5,18 @@ const db = require('../../config/db')
 module.exports = {
 
     all(callback) {
-        db.query(`SELECT * FROM instructors`, function(err, results){
+
+        db.query(`
+        SELECT instructors.*, count(students) AS total_students
+        FROM instructors
+        LEFT JOIN students ON (students.instructor_id = instructors.id)
+        GROUP BY instructors.id
+        ORDER BY total_students DESC
+        `,function(err, results){
+
             if(err) throw `Database error! ${err}`
             callback(results.rows)
+
         })
     },
  
@@ -49,7 +58,7 @@ module.exports = {
             callback(results.rows[0])
 
         })
-    },
+    }, 
 
     update(data, callback) {
 
@@ -60,22 +69,25 @@ module.exports = {
                 birth=($3),
                 gender=($4),
                 services=($5)
-            WHERE id=($6)
+            WHERE id = $6
         `
          
         const values = [
             data.avatar_url,
             data.name,
-            moment(data.birth).format('YYYY-MM-DD'),
+            data.birth,
             data.gender,
             data.services,
             data.id
         ]
 
         db.query(query, values, function(err, results) {
+
             if(err) throw `"Database error!" ${err}`
             callback()
+            
         })
+
     },
 
     delete(id, callback) {

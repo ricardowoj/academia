@@ -6,7 +6,6 @@ module.exports = {
     all(callback) {
 
         db.query(`SELECT * FROM students`, function(err, results){
-
             if(err) throw `Database error! ${err}`
             callback(results.rows)
 
@@ -29,8 +28,10 @@ module.exports = {
                 neighborhood,
                 street,
                 complement,
-                created_at
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+                created_at,
+                number,
+                instructor_id
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
             RETURNING id
         `
 
@@ -47,7 +48,9 @@ module.exports = {
             data.neighborhood,
             data.street,
             data.complement,
-            moment().format('YYYY-MM-DD')
+            moment().format('YYYY-MM-DD'),
+            data.number,
+            data.instructor
         ] 
 
         db.query(query, values, function(err, results) {
@@ -57,13 +60,12 @@ module.exports = {
     },
 
     find(id, callback) {
-
-        db.query(`SELECT * FROM students 
-        WHERE id = $1`, [id], function(err,results) {
-
-            if(err) throw `Database error! ${err}`
+        db.query(`
+        SELECT students.*, instructors.name AS instructor_name FROM students 
+        LEFT JOIN instructors ON (students.instructor_id = instructors.id)
+        WHERE students.id = $1`, 
+        [id], function(err, results) {
             callback(results.rows[0])
-
         })
     },
 
@@ -82,23 +84,27 @@ module.exports = {
                 state=($9),
                 neighborhood=($10),
                 street=($11),
-                complement=($12)
-            WHERE id=($13)
+                number=($12),
+                complement=($13),
+                instructor_id=($14)
+            WHERE id = $15
         `
 
         const values = [
             data.avatar_url,
             data.name,
             data.email,
-            moment(data.birth).format('YYYY-MM-DD'),
+            data.birth,
             data.gender,
             data.activities,
             data.zip,
             data.city,
             data.state,
             data.neighborhood,
-            data.street,
+            data.street, 
+            data.number,
             data.complement,
+            data.instructor,
             data.id
         ] 
 
@@ -115,5 +121,12 @@ module.exports = {
             if(err) throw `Database Error! ${err}`
             return callback()
         })
+    },
+
+    instructorsSelectOptions(callback) {
+        db.query(`SELECT name, id FROM instructors`, function(err, results){
+            if(err) throw `Database Error! ${err}`
+            callback(results.rows)
+        } )
     }
 }
