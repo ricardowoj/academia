@@ -259,3 +259,13 @@ body .table-container > a {
     font-size: 12px;
 }
 
+/* FILTERS */
+.table-container .header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}   
+
+.table-container .header .a {
+
+}
